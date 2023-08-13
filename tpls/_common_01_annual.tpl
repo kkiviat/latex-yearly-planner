@@ -1,3 +1,4 @@
+\begingroup \footnotesize
 {{range $i, $qrtr := .Body.Year.Quarters}}
 \begin{tabularx}{\linewidth}{@{}*{3}{X}@{}}
 {{- range $j, $month := $qrtr.Months}}
@@ -5,5 +6,6 @@
   {{- if ne $j 2 }} & {{end}}
 {{- end }}
 \end{tabularx}
-{{- if ne $i 3}} \vfill {{- end -}}
+\vfill
 {{- end -}}
+\endgroup

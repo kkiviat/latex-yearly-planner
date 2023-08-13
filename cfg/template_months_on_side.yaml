@@ -29,6 +29,12 @@ pages:
         tpls:
           - mos_04_weekly.tpl
 
+  - name: weekly_tasks
+    renderblocks:
+      - funcname: weekly_tasks
+        tpls:
+          - mos_10_weekly_tasks.tpl
+
   - name: daily
     renderblocks:
       - funcname: daily

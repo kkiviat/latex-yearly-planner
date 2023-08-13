@@ -1,4 +1,4 @@
-\documentclass[9pt]{extarticle}
+\documentclass[12pt]{extarticle}
 
 \usepackage{geometry}
 \usepackage[table]{xcolor}

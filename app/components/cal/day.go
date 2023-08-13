@@ -55,6 +55,10 @@ func (d Day) WeekLink() string {
 	return hyper.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
 }
 
+func (d Day) WeekLetterLink() string {
+	return hyper.Link(d.ref(), d.Time.Weekday().String()[0:1])
+}
+
 func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
 	wpref := ""
 	_, wn := d.Time.ISOWeek()

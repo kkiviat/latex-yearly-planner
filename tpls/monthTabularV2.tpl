@@ -2,6 +2,7 @@
 {{ if not .Large -}} \renewcommand{\arraystretch}{\myNumArrayStretch}% {{- end}}
 \setlength{\tabcolsep}{\myLenTabColSep}%
 %
+{{ if $.Large -}} \begingroup \footnotesize {{- end }}
 {{ .Month.DefineTable .TableType .Large }}
   {{ .Month.MaybeName .Large }}
   {{ if $.Large -}} \hline {{- end }}
@@ -16,4 +17,5 @@
     {{- end -}}
   {{ end }}
   {{ .Month.EndTable .TableType -}}
+{{ if $.Large -}} \endgroup {{- end }}
 }

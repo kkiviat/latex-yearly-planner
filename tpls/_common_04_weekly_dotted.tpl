@@ -27,3 +27,4 @@
 \hspace{\myLenTriColSep}%
 \parbox{\dimexpr2\myLenTriCol+\myLenTriColSep}{\myUnderline{Notes\myDummyQ}}
 \myMash{\myNumWeeklyLines}{\myNumDotWidthFull}
+\vfill

@@ -1,31 +1,48 @@
 package compose
 
 import (
+        "time"
 	"github.com/kudrykv/latex-yearly-planner/app/components/cal"
 	"github.com/kudrykv/latex-yearly-planner/app/components/page"
+	"github.com/kudrykv/latex-yearly-planner/app/components/header"
 	"github.com/kudrykv/latex-yearly-planner/app/config"
 )
 
-func Weekly(cfg config.Config, tpls []string) (page.Modules, error) {
-	modules := make(page.Modules, 0, 53)
-	year := cal.NewYear(cfg.WeekStart, cfg.Year)
+var Weekly = WeeklyStuff("", "")
+var WeeklyTasks = WeeklyStuff("Tasks", "Tasks")
 
-	for _, week := range year.Weeks {
-		modules = append(modules, page.Module{
-			Cfg: cfg,
-			Tpl: tpls[0],
-			Body: map[string]interface{}{
-				"Year":         year,
-				"Week":         week,
-				"Breadcrumb":   week.Breadcrumb(),
-				"HeadingMOS":   week.HeadingMOS(),
-				"SideQuarters": year.SideQuarters(week.Quarters.Numbers()...),
-				"SideMonths":   year.SideMonths(week.Months.Months()...),
-				"Extra":        week.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
-				"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
-			},
-		})
-	}
+func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (page.Modules, error) {
+	return func(cfg config.Config, tpls []string) (page.Modules, error) {
+	    modules := make(page.Modules, 0, 53)
+	    year := cal.NewYear(cfg.WeekStart, cfg.Year)
 
-	return modules, nil
+	    for _, week := range year.Weeks {
+	            extra := week.PrevNext(prefix)
+	    	    if prefix == "" {
+		            extra = header.Items{header.NewTextItem("Notes").RefText("Notes Index"), header.NewTextItem("Tasks").RefText(week.RefText("Tasks"))}
+		    }
+		    if prefix == "Tasks" {
+		            dayLayout := "Mon, 2"
+		       	    dayItemStart := header.NewTextItem(week.Days[0].Time.Format(dayLayout)).RefText(week.Days[0].Time.Format(time.RFC3339))
+		       	    dayItemEnd := header.NewTextItem(week.Days[6].Time.Format(dayLayout)).RefText(week.Days[6].Time.Format(time.RFC3339))
+		            extra = header.Items{dayItemStart, dayItemEnd}
+	            }
+		    modules = append(modules, page.Module{
+			    Cfg: cfg,
+			    Tpl: tpls[0],
+			    Body: map[string]interface{}{
+				    "Year":         year,
+				    "Week":         week,
+				    "Breadcrumb":   week.Breadcrumb(prefix, leaf),
+				    "HeadingMOS":   week.HeadingMOS(prefix, leaf),
+				    "SideQuarters": year.SideQuarters(week.Quarters.Numbers()...),
+				    "SideMonths":   year.SideMonths(week.Months.Months()...),
+				    "Extra":        extra.WithTopRightCorner(cfg.ClearTopRightCorner),
+				    "Extra2":       extra2(cfg.ClearTopRightCorner, false, false, week, 0),
+			    },
+		    })
+	    }
+
+	    return modules, nil
+    }
 }

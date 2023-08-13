@@ -24,6 +24,7 @@ layout:
     quarterlylines: 36
     weeklylines: 11
     dailytodos: 8
+    weeklytasktodos: 8
     dailynotes: 25
     dailypersonal: 6
     dailybottomhour: 7

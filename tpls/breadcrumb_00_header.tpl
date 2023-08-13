@@ -1,4 +1,4 @@
-{\noindent\Large\renewcommand{\arraystretch}{\myNumArrayStretch}
+{\noindent\large\renewcommand{\arraystretch}{\myNumArrayStretch}
 {{- .Body.Breadcrumb -}}
 \hfill%
 {{ .Body.Extra.Table false -}}

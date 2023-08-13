@@ -29,6 +29,12 @@ pages:
         tpls:
           - breadcrumb_04_weekly.tpl
 
+  - name: weekly_tasks
+    renderblocks:
+      - funcname: weekly_tasks
+        tpls:
+          - breadcrumb_10_weekly_tasks.tpl
+
   - name: daily
     renderblocks:
       - funcname: daily

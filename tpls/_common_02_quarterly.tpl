@@ -1,3 +1,4 @@
+\begingroup \footnotesize
 \begin{minipage}[t][\remainingHeight]{\myLenTriCol}
 {{- range $j, $month := .Body.Quarter.Months -}}
 {\noindent\renewcommand{\arraystretch}{0}%
@@ -10,3 +11,4 @@
   \vskip-\myLenLineHeightButLine
   \vbox to 0pt{\myMash[\myQuarterlySpring]{\myNumQuarterlyLines}{\myNumDotWidthTwoThirds}}
 \end{minipage}
+\endgroup

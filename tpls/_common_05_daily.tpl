@@ -1,4 +1,5 @@
 {{- $today := .Body.Day -}}
+{{- $thisweek := .Body.Week -}}
 
 \begin{minipage}[t]{\myLenTriCol}
 {{template "schedule.tpl" dict "Cfg" .Cfg "Day" .Body.Day}}
@@ -10,10 +11,10 @@
 \end{minipage}%
 \hspace{\myLenTriColSep}%
 \begin{minipage}[t]{\dimexpr2\myLenTriCol+\myLenTriColSep}
-  \myUnderline{Top priorities\myDummyQ}
+  \myUnderline{Tasks\myDummyQ}
   \Repeat{\myNumDailyTodos}{\myTodoLineGray}
   \vskip\dimexpr5.4mm
-  \myUnderline{Notes $\vert$ {{ $today.LinkLeaf "More" "More" }}\hfill{}{{ $today.LinkLeaf "Reflect" "Reflect" }}\hfill{}\hyperlink{Notes Index}{All notes}}
+  \myUnderline{Notes $\vert$ {{ $today.LinkLeaf "More" "More" }}\hfill{}{{ $today.LinkLeaf "Reflect" "Reflect" }}\hfill{}{{ $thisweek.LinkLeaf "Tasks" "Tasks" }}\hfill{}\hyperlink{Notes Index}{All notes}}
   \myMash[\myDailySpring]{\myNumDailyNotes}{\myNumDotWidthTwoThirds}
 \end{minipage}
 \par\pagebreak

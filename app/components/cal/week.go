@@ -146,13 +146,23 @@ func (w *Week) weekNumber() int {
 	return wn
 }
 
-func (w *Week) Breadcrumb() string {
-	return header.Items{
+func (w *Week) Breadcrumb(prefix string, leaf string) string {
+        weekItem := header.NewTextItem("Week " + strconv.Itoa(w.weekNumber())).RefText(w.ref())
+
+	items := header.Items{
 		header.NewIntItem(w.Year.Number),
 		w.QuartersBreadcrumb(),
 		w.MonthsBreadcrumb(),
-		header.NewTextItem("Week " + strconv.Itoa(w.weekNumber())).RefText(w.ref()).Ref(true),
-	}.Table(true)
+	}
+
+
+	if len(leaf) > 0 {
+		items = append(items, weekItem, header.NewTextItem(leaf).RefText(prefix+w.ref()).Ref(true))
+	} else {
+		items = append(items, weekItem.Ref(true))
+	}
+
+        return items.Table(true)
 }
 
 func (w *Week) monthOverlap() bool {
@@ -183,17 +193,17 @@ func (w *Week) rightMonth() time.Month {
 	return -1
 }
 
-func (w *Week) PrevNext() header.Items {
+func (w *Week) PrevNext(prefix string) header.Items {
 	items := header.Items{}
 
 	if w.PrevExists() {
 		wn := w.Prev().weekNumber()
-		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
+		items = append(items, header.NewTextItem(prefix + "Week "+strconv.Itoa(wn)))
 	}
 
 	if w.NextExists() {
 		wn := w.Next().weekNumber()
-		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
+		items = append(items, header.NewTextItem(prefix + "Week "+strconv.Itoa(wn)))
 	}
 
 	return items
@@ -239,17 +249,25 @@ func (w *Week) MonthsBreadcrumb() header.ItemsGroup {
 	return group
 }
 
-func (w *Week) ref() string {
-	prefix := ""
+func (w *Week) ref(prefix ...string) string {
+	p := ""
+
+        if len(prefix) > 0 {
+	        p = prefix[0]
+        }
 	wn := w.weekNumber()
 	rm := w.rightMonth()
 	ry := w.rightYear()
 
 	if wn > 50 && rm == time.January && ry == w.Year.Number {
-		prefix = "fw"
+		p = p + "fw"
 	}
 
-	return prefix + "Week " + strconv.Itoa(wn)
+	return p + "Week " + strconv.Itoa(wn)
+}
+
+func (w *Week) RefText(prefix string) string {
+       return w.ref(prefix)
 }
 
 func (w *Week) leftMonth() time.Month {
@@ -276,22 +294,22 @@ func (w *Week) rightYear() int {
 	return -1
 }
 
-func (w *Week) HeadingMOS() string {
+func (w *Week) HeadingMOS(prefix, leaf string) string {
 	var contents []string
 
 	if w.PrevExists() {
 		leftNavBox := tex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\langle$`)
-		contents = append(contents, tex.Hyperlink(w.Prev().ref(), leftNavBox))
+		contents = append(contents, tex.Hyperlink(w.Prev().ref(prefix), leftNavBox))
 	}
 
 	contents = append(contents, tex.ResizeBoxW(`\myLenHeaderResizeBox`, w.Target()))
 
 	if w.NextExists() {
 		rightNavBox := tex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\rangle$`)
-		contents = append(contents, tex.Hyperlink(w.Next().ref(), rightNavBox))
+		contents = append(contents, tex.Hyperlink(w.Next().ref(prefix), rightNavBox))
 	}
 
-	return tex.Tabular("@{}"+strings.Repeat("l", len(contents)), strings.Join(contents, ` & `))
+	return tex.Hypertarget(prefix+w.ref(), "") + tex.Tabular("@{}"+strings.Repeat("l", len(contents)), strings.Join(contents, ` & `))
 }
 
 func (w *Week) Name() string {
@@ -300,4 +318,8 @@ func (w *Week) Name() string {
 
 func (w *Week) Target() string {
 	return tex.Hypertarget(w.ref(), w.Name())
+}
+
+func (w *Week) LinkLeaf(prefix, leaf string) string {
+	return hyper.Link(prefix+w.ref(), leaf)
 }
