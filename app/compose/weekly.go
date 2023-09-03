@@ -16,10 +16,27 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 	    modules := make(page.Modules, 0, 53)
 	    year := cal.NewYear(cfg.WeekStart, cfg.Year)
 
+	    hasWeeklyTasks := false
+	    hasNotes := false
+	    for _, page := range cfg.Pages {
+		if page.Name == "weekly_tasks" {
+		    hasWeeklyTasks = true
+		}
+		if page.Name == "notes_indexed" {
+		    hasNotes = true
+		}
+	    }
+
 	    for _, week := range year.Weeks {
 	            extra := week.PrevNext(prefix)
-	    	    if prefix == "" {
-		            extra = header.Items{header.NewTextItem("Notes").RefText("Notes Index"), header.NewTextItem("Tasks").RefText(week.RefText("Tasks"))}
+	    	    if prefix == "" && (hasNotes || hasWeeklyTasks) {
+		            extra = header.Items{}
+			    if hasNotes {
+			        extra = append(extra, header.NewTextItem("Notes").RefText("Notes Index"))
+			    }
+			    if hasWeeklyTasks {
+			        extra = append(extra, header.NewTextItem("Tasks").RefText(week.RefText("Tasks")))
+		            }
 		    }
 		    if prefix == "Tasks" {
 		            dayLayout := "Mon, 2"
@@ -33,7 +50,7 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 			    Body: map[string]interface{}{
 				    "Year":         year,
 				    "Week":         week,
-				    "Breadcrumb":   week.Breadcrumb(prefix, leaf),
+				    "Breadcrumb":   week.Breadcrumb(prefix, leaf, cfg),
 				    "HeadingMOS":   week.HeadingMOS(prefix, leaf),
 				    "SideQuarters": year.SideQuarters(week.Quarters.Numbers()...),
 				    "SideMonths":   year.SideMonths(week.Months.Months()...),

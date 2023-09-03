@@ -9,6 +9,7 @@ import (
 	"github.com/kudrykv/latex-yearly-planner/app/components/header"
 	"github.com/kudrykv/latex-yearly-planner/app/components/hyper"
 	"github.com/kudrykv/latex-yearly-planner/app/tex"
+	"github.com/kudrykv/latex-yearly-planner/app/config"
 )
 
 type Weeks []*Week
@@ -157,15 +158,25 @@ func (w *Week) weekNumber() int {
 	return wn
 }
 
-func (w *Week) Breadcrumb(prefix string, leaf string) string {
+func (w *Week) Breadcrumb(prefix string, leaf string, cfg config.Config) string {
         weekItem := header.NewTextItem("Week " + strconv.Itoa(w.weekNumber())).RefText(w.ref())
-
-	items := header.Items{
-		header.NewIntItem(w.Year.Number),
-		w.QuartersBreadcrumb(),
-		w.MonthsBreadcrumb(),
+	hasQuarterly := false
+	hasMonthly := false
+    	for _, page := range cfg.Pages {
+	    if page.Name == "quarterly" {
+		hasQuarterly = true
+	    }
+	    if page.Name == "monthly" {
+		hasMonthly = true
+	    }
 	}
-
+	items := header.Items{header.NewIntItem(w.Year.Number)}
+	if hasQuarterly {
+	    items = append(items, w.QuartersBreadcrumb())
+	}
+	if hasMonthly {
+	    items = append(items, w.MonthsBreadcrumb())
+	}
 
 	if len(leaf) > 0 {
 		items = append(items, weekItem, header.NewTextItem(leaf).RefText(prefix+w.ref()).Ref(true))

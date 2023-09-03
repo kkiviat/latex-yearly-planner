@@ -7,6 +7,7 @@ import (
 
 	"github.com/kudrykv/latex-yearly-planner/app/components/header"
 	"github.com/kudrykv/latex-yearly-planner/app/components/hyper"
+	"github.com/kudrykv/latex-yearly-planner/app/config"
 )
 
 type Months []*Month
@@ -120,12 +121,20 @@ func (m *Month) DefineWeekTable(typ interface{}) string {
 	return `\begin{tabular}[t]{c|*{5}{c}}`
 }
 
-func (m *Month) Breadcrumb() string {
-	return header.Items{
-		header.NewIntItem(m.Year.Number),
-		header.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)),
-		header.NewMonthItem(m.Month).Ref(),
-	}.Table(true)
+func (m *Month) Breadcrumb(cfg config.Config) string {
+	hasQuarterly := false
+    	for _, page := range cfg.Pages {
+	    if page.Name == "quarterly" {
+		hasQuarterly = true
+		break
+	    }
+	}
+	items := header.Items{header.NewIntItem(m.Year.Number)}
+	if hasQuarterly {
+	        items = append(items, header.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)))
+	}
+	items = append(items, header.NewMonthItem(m.Month).Ref())
+	return items.Table(true)
 }
 
 func (m *Month) PrevNext() header.Items {
