@@ -1,0 +1,18 @@
+pages:
+  - name: title
+    renderblocks:
+      - funcname: title
+        tpls:
+          - title.tpl
+
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - visual_03_monthly.tpl
+
+  - name: weekly
+    renderblocks:
+      - funcname: weekly
+        tpls:
+          - visual_04_weekly.tpl

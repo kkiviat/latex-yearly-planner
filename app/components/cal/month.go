@@ -108,6 +108,18 @@ func (m *Month) EndTable(typ interface{}) string {
 	return `\end{tabular}`
 }
 
+func (m *Month) DefineWeekTable(typ interface{}) string {
+	typStr, ok := typ.(string)
+	numWeeks := strconv.Itoa(len(m.Weeks))
+	if !ok || typStr == "tabularx" {
+		weeks := `@{}>{\centering\arraybackslash}X@{}|`
+
+		return `\begin{tabularx}{\linewidth}{|*{` + numWeeks + `}{` + weeks + `}}`
+	}
+
+	return `\begin{tabular}[t]{c|*{5}{c}}`
+}
+
 func (m *Month) Breadcrumb() string {
 	return header.Items{
 		header.NewIntItem(m.Year.Number),

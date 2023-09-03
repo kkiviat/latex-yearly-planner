@@ -134,6 +134,17 @@ func (w *Week) WeekNumber(large interface{}) string {
 	return hyper.Link(ref, text)
 }
 
+func (w *Week) WeekNumberLink() string {
+	wn := w.weekNumber()
+
+	itoa := strconv.Itoa(wn)
+	ref := w.ref()
+
+	text := "Week " + itoa
+
+	return hyper.Link(ref, text)
+}
+
 func (w *Week) weekNumber() int {
 	_, wn := w.Days[0].Time.ISOWeek()
 

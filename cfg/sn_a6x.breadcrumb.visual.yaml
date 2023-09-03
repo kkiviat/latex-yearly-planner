@@ -1,0 +1,22 @@
+weekstart: 1
+
+layout:
+  paper:
+    marginparwidth: .8cm
+    marginparsep: .25cm
+    reversemargins: true
+
+    margin:
+      top: .5cm
+      bottom: .5cm
+      left: .5cm
+
+  numbers:
+    arraystretch: 1.3
+    weeklylines: 9
+
+  lengths:
+    headersidequarterswidth: 4cm
+    headersidemonthswidth: 10.45cm
+    lineheightbutline: \dimexpr6mm-.4pt
+    monthlyspring: \vskip.5mm
