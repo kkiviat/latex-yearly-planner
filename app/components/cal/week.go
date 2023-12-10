@@ -215,17 +215,27 @@ func (w *Week) rightMonth() time.Month {
 	return -1
 }
 
-func (w *Week) PrevNext(prefix string) header.Items {
+func (w *Week) PrevNext(prefix string, prevNext bool) header.Items {
 	items := header.Items{}
 
 	if w.PrevExists() {
 		wn := w.Prev().weekNumber()
-		items = append(items, header.NewTextItem(prefix + "Week "+strconv.Itoa(wn)))
+ 		refText := prefix + "Week "+strconv.Itoa(wn)
+		displayText := "Prev"
+		if !prevNext {
+		   displayText = refText
+		}
+		items = append(items, header.NewTextItem(displayText).RefText(refText))
 	}
 
 	if w.NextExists() {
 		wn := w.Next().weekNumber()
-		items = append(items, header.NewTextItem(prefix + "Week "+strconv.Itoa(wn)))
+ 		refText := prefix + "Week "+strconv.Itoa(wn)
+		displayText := "Next"
+		if !prevNext {
+		   displayText = refText
+		}
+		items = append(items, header.NewTextItem(displayText).RefText(refText))
 	}
 
 	return items

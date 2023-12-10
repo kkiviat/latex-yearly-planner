@@ -16,3 +16,9 @@ pages:
       - funcname: weekly
         tpls:
           - visual_04_weekly.tpl
+
+  - name: weekly_journal
+    renderblocks:
+      - funcname: weekly_journal
+        tpls:
+          - visual_05_weeklyjournal.tpl
