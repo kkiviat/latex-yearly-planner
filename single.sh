@@ -27,11 +27,10 @@ if [[ -n "${PASSES}" ]]; then
 fi
 
 for _ in "${_passes[@]}"; do
-  pdflatex \
+  xelatex \
     -file-line-error \
     -interaction=nonstopmode \
     -synctex=1 \
-    -output-format=pdf \
     -output-directory=./out \
     "out/${nakedname}.tex"
 done

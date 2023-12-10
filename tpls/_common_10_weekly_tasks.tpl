@@ -8,7 +8,7 @@
 {{- $day7 := index $days 6 -}}
 
 \Repeat{3}{%
-{{`\begin{tabularx}{\linewidth}{p{0.48\textwidth}|*{7}{m{2pt}}|llll}`}}
+{{`\begin{tabularx}{\linewidth}{p{0.455\textwidth}|*{7}{m{2pt}}|llll}`}}
   \hline
 {{`\rowcolor{black}{\textcolor{white}{\bfseries Task}} \myLineHeightButLine{}& \multicolumn{7}{l|}{{\textcolor{white}{\bfseries Worked On}}} & \multicolumn{4}{l}{{\textcolor{white}{\bfseries Status}}}        \\`}}
 \hline
