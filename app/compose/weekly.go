@@ -18,7 +18,6 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 	    year := cal.NewYear(cfg.WeekStart, cfg.Year)
 
 	    hasWeeklyTasks := false
-	    hasNotes := false
 	    hasWeeklyJournal := false
 	    for _, page := range cfg.Pages {
 		if page.Name == "weekly_tasks" {
@@ -27,17 +26,11 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 		if page.Name == "weekly_journal" {
 		    hasWeeklyJournal = true
 		}
-		if page.Name == "notes_indexed" {
-		    hasNotes = true
-		}
 	    }
 
 	    for _, week := range year.Weeks {
-	            extra := week.PrevNext(prefix, false)
-	    	    if prefix == "" && (hasNotes || hasWeeklyTasks || hasWeeklyJournal) {
-			    if hasNotes {
-			        extra = append(extra, header.NewTextItem("Notes").RefText("Notes Index"))
-			    }
+	            extra := week.PrevNext(prefix, true)
+	    	    if prefix == "" && (hasWeeklyTasks || hasWeeklyJournal) {
 			    if hasWeeklyTasks {
 			        extra = append(extra, header.NewTextItem("Tasks").RefText(week.RefText("Tasks")))
 		            }
@@ -45,7 +38,12 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 			        extra = append(extra, header.NewTextItem("Journal").RefText(week.RefText("Journal")))
 		            }
 		    } else if prefix != "" {
-			extra = week.PrevNext(prefix, true)
+		            dayLayout := "2"
+ 			    dayStart := week.Days[0].Time.Format(dayLayout)
+ 			    dayEnd := week.Days[6].Time.Format(dayLayout)
+		       	    dayItemStart := header.NewTextItem(dayStart + "-" + dayEnd)
+		            extra = header.Items{dayItemStart}
+			    extra = append(extra, week.PrevNext(prefix, true)...)
                     }
 		    modules = append(modules, page.Module{
 			    Cfg: cfg,

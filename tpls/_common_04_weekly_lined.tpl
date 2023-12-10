@@ -35,6 +35,4 @@
   \myUnderline{ {{- $day7.WeekLink -}} }\Repeat{\myNumWeeklyLines}{\myLineGrayVskipTop}%
 }%
 \hspace{\myLenTriColSep}%
-\parbox{\dimexpr2\myLenTriCol+\myLenTriColSep}{%
-  \myUnderline{Notes\textcolor{white}{g}}\Repeat{\myNumWeeklyLines}{\myLineGrayVskipTop}%
-}
+\parbox{\dimexpr2\myLenTriCol+\myLenTriColSep}{\myUnderline{Notes\myDummyQ\hfill{}\hyperlink{Notes Index}{All notes}}}
