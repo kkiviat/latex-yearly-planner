@@ -4,6 +4,7 @@ import (
 	"github.com/kudrykv/latex-yearly-planner/app/components/cal"
 	"github.com/kudrykv/latex-yearly-planner/app/components/page"
 	"github.com/kudrykv/latex-yearly-planner/app/config"
+	"github.com/kudrykv/latex-yearly-planner/app/components/header"
 )
 
 func Monthly(cfg config.Config, tpls []string) (page.Modules, error) {
@@ -12,6 +13,9 @@ func Monthly(cfg config.Config, tpls []string) (page.Modules, error) {
 
 	for _, quarter := range year.Quarters {
 		for _, month := range quarter.Months {
+ 	    	       notesLink := header.NewTextItem("Notes").RefText("Notes Index")
+		       extra := header.Items{notesLink}
+		       extra = append(extra, month.PrevNext()...)
 			modules = append(modules, page.Module{
 				Cfg: cfg,
 				Tpl: tpls[0],
@@ -23,8 +27,8 @@ func Monthly(cfg config.Config, tpls []string) (page.Modules, error) {
 					"HeadingMOS":   month.HeadingMOS(),
 					"SideQuarters": year.SideQuarters(quarter.Number),
 					"SideMonths":   year.SideMonths(month.Month),
-					"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
-					"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
+					"Extra":        extra.WithTopRightCorner(cfg.ClearTopRightCorner),
+					"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, nil, 0),
 				},
 			})
 		}

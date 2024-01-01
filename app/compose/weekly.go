@@ -28,23 +28,29 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 		}
 	    }
 
+ 	    notesLink := header.NewTextItem("Notes").RefText("Notes Index")
 	    for _, week := range year.Weeks {
-	            extra := week.PrevNext(prefix, true)
-	    	    if prefix == "" && (hasWeeklyTasks || hasWeeklyJournal) {
-			    if hasWeeklyTasks {
-			        extra = append(extra, header.NewTextItem("Tasks").RefText(week.RefText("Tasks")))
-		            }
-			    if hasWeeklyJournal {
-			        extra = append(extra, header.NewTextItem("Journal").RefText(week.RefText("Journal")))
-		            }
-		    } else if prefix != "" {
+	            extra := header.Items{notesLink}
+	    	    if prefix == "" {
+			if hasWeeklyTasks {
+			    extra = append(extra, header.NewTextItem("Tasks").RefText(week.RefText("Tasks")))
+			}
+			if hasWeeklyJournal {
+			    extra = append(extra, header.NewTextItem("Journal").RefText(week.RefText("Journal")))
+			}
+		    } else {
 		            dayLayout := "2"
  			    dayStart := week.Days[0].Time.Format(dayLayout)
  			    dayEnd := week.Days[6].Time.Format(dayLayout)
 		       	    dayItemStart := header.NewTextItem(dayStart + "-" + dayEnd)
 		            extra = header.Items{dayItemStart}
-			    extra = append(extra, week.PrevNext(prefix, true)...)
                     }
+		    extra = append(extra, week.PrevNext(prefix, true)...)
+		    extra2_other := header.NewCellItem("Tasks").Refer(week.RefText("Tasks")).Selected(prefix == "Tasks")
+		    extra2_week := week
+		    if prefix == "" {
+		       extra2_week = nil
+		    }
 		    modules = append(modules, page.Module{
 			    Cfg: cfg,
 			    Tpl: tpls[0],
@@ -56,7 +62,7 @@ func WeeklyStuff(prefix, leaf string) func(cfg config.Config, tpls []string) (pa
 				    "SideQuarters": year.SideQuarters(week.Quarters.Numbers()...),
 				    "SideMonths":   year.SideMonths(week.Months.Months()...),
 				    "Extra":        extra.WithTopRightCorner(cfg.ClearTopRightCorner),
-				    "Extra2":       extra2(cfg.ClearTopRightCorner, false, false, week, 0),
+				    "Extra2":       extra2(cfg.ClearTopRightCorner, false, false, extra2_week, &extra2_other, 0),
 			    },
 		    })
 	    }

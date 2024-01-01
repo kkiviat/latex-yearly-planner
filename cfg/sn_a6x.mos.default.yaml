@@ -9,29 +9,32 @@ layout:
     reversemargins: true
 
     margin:
-      top: 1.5cm
+      top: .5cm
+      bottom: .5cm
       left: 1cm
 
   numbers:
+    arraystretch: 1.3
     dailydiarybest: 3
     dailydiarygrateful: 3
     dailydiarylog: 23
     dailynotes: 22
-    dailybottomhour: 9
-    dailytophour: 18
-    dailytodos: 6
-    weeklytasktodos: 6
-    dotheightfull: 35
-    dotwidthfull: 29
+    dailybottomhour: 6
+    dailytophour: 19
+    dailytodos: 8
+    weeklytasktodos: 7
+    dotheightfull: 36
+    dotwidthfull: 30
     dotwidthtwothirds: 19
-    notesindexpages: 5
-    notesonpage: 22
-    weeklylines: 8
+    notesindexpages: 3
+    notesonpage: 30
+    weeklylines: 11
 
   lengths:
     headersidequarterswidth: 4cm
-    headersidemonthswidth: 10.45cm
+    headersidemonthswidth: 14cm
     lineheightbutline: \dimexpr6mm-.4pt
     quarterlyspring: \myDummyQ
     monthlyspring: \vskip.5mm
     dailyspring: \textcolor{white}{..}
+    headerresizebox: 4mm

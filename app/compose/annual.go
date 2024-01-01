@@ -23,16 +23,20 @@ func Annual(cfg config.Config, tpls []string) (page.Modules, error) {
 			"SideMonths":   year.SideMonths(0),
 			"Extra": header.Items{header.NewTextItem("Notes").RefText("Notes Index")}.
 				WithTopRightCorner(cfg.ClearTopRightCorner),
-			"Extra2": extra2(cfg.ClearTopRightCorner, true, false, nil, 0),
+			"Extra2": extra2(cfg.ClearTopRightCorner, true, false, nil, nil, 0),
 		},
 	}}, nil
 }
 
-func extra2(ctrc, sel1, sel2 bool, week *cal.Week, idxPage int) header.Items {
+func extra2(ctrc, sel1, sel2 bool, week *cal.Week, other *header.CellItem, idxPage int) header.Items {
 	items := make(header.Items, 0, 3)
 
 	if week != nil {
 		items = append(items, header.NewCellItem(week.Name()))
+	}
+
+	if other != nil {
+		items = append(items, other)
 	}
 
 	items = append(items, header.NewCellItem("Calendar").Selected(sel1))

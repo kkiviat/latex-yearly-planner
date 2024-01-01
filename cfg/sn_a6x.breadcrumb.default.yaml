@@ -18,14 +18,14 @@ layout:
     dailydiarybest: 4
     dailydiarygrateful: 4
     dailydiarylog: 23
-    dailynotes: 23
-    dailybottomhour: 7
-    dailytophour: 20
-    dailytodos: 8
+    dailynotes: 30
+    dailybottomhour: 6
+    dailytophour: 19
+    dailytodos: 3
     weeklytasktodos: 6
     dotheightfull: 36
     dotwidthfull: 30
-    dotwidthtwothirds: 19
+    dotwidthtwothirds: 20
     notesindexpages: 3
     notesonpage: 30
     weeklylines: 11

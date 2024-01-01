@@ -5,6 +5,12 @@ pages:
         tpls:
           - title.tpl
 
+  - name: annual
+    renderblocks:
+      - funcname: annual
+        tpls:
+          - breadcrumb_01_annual.tpl
+
   - name: monthly
     renderblocks:
       - funcname: monthly

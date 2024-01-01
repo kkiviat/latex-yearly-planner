@@ -55,6 +55,10 @@ func (d Day) WeekLink() string {
 	return hyper.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
 }
 
+func (d Day) WeekShortLink() string {
+	return hyper.Link(d.ref(), strconv.Itoa(d.Time.Day())+" "+d.Time.Weekday().String()[0:3])
+}
+
 func (d Day) WeekLetterLink() string {
 	return hyper.Link(d.ref(), d.Time.Weekday().String()[0:1])
 }

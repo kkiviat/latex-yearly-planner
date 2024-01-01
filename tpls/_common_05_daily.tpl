@@ -14,7 +14,7 @@
   \myUnderline{Tasks\myDummyQ}
   \Repeat{\myNumDailyTodos}{\myTodoLineGray}
   \vskip\dimexpr5.4mm
-  \myUnderline{Notes $\vert$ {{ $today.LinkLeaf "More" "More" }}\hfill{}{{ $today.LinkLeaf "Reflect" "Reflect" }}\hfill{}{{ $thisweek.LinkLeaf "Tasks" "Tasks" }}\hfill{}\hyperlink{Notes Index}{All notes}}
+  \myUnderline{Notes \hfill{}{{ $thisweek.LinkLeaf "Tasks" "Tasks" }}\hfill{}\hyperlink{Notes Index}{All notes}}
   \myMash[\myDailySpring]{\myNumDailyNotes}{\myNumDotWidthTwoThirds}
 \end{minipage}
 \par\pagebreak
